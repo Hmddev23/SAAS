@@ -1,16 +1,24 @@
 
 from pathlib import Path
+from decouple import config
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-k2%6__zfqp*q&5j5*4smugbt38!n5_m4bjl8!6o5plxqnxyp3o'
+SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-ALLOWED_HOSTS = []
+DEBUG = config('DJANGO_DEBUG', cast = bool)
+ALLOWED_HOSTS = [
+  '.railway.app'
+]
+if DEBUG:
+  ALLOWED_HOSTS += [
+    '127.0.0.1',
+    'localhost'
+  ]
 
 # Application definition
 INSTALLED_APPS = [
@@ -86,6 +94,17 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
+STATICFILES_BASE_DIR = BASE_DIR / 'staticfiles'
+STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR / '/vendors'
+
+# Source(s) for python manage.py collectstatic
+STATICFILES_DIRS = [
+  STATICFILES_BASE_DIR
+]
+
+# Output for python manage.py collectstatic
+# local cdn -> production cdn
+STATIC_ROOT = BASE_DIR / 'local-cdn'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

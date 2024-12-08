@@ -2,6 +2,12 @@
 progress.txt
 YT_CE_SAAS_DJANGO____NN.code-workspace
 
+# ignore vendor static files
+src/staticfiles/vendors
+
+# ignore local cdn, static file root
+local-cdn/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

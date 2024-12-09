@@ -29,11 +29,13 @@ INSTALLED_APPS = [
   'django.contrib.messages',
   'django.contrib.staticfiles',
 
-  'visits'
+  'visits',
+  'commando'
 ]
 
 MIDDLEWARE = [
   'django.middleware.security.SecurityMiddleware',
+  "whitenoise.middleware.WhiteNoiseMiddleware",
   'django.contrib.sessions.middleware.SessionMiddleware',
   'django.middleware.common.CommonMiddleware',
   'django.middleware.csrf.CsrfViewMiddleware',
@@ -95,7 +97,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
 STATICFILES_BASE_DIR = BASE_DIR / 'staticfiles'
-STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR / '/vendors'
+STATICFILES_BASE_DIR.mkdir(exist_ok=True, parents=True)
+STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR / 'vendors'
 
 # Source(s) for python manage.py collectstatic
 STATICFILES_DIRS = [
@@ -105,6 +108,13 @@ STATICFILES_DIRS = [
 # Output for python manage.py collectstatic
 # local cdn -> production cdn
 STATIC_ROOT = BASE_DIR / 'local-cdn'
+
+# WhiteNoise cacheable files and compression support
+STORAGES = {
+  "staticfiles": {
+    "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+  },
+}
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
